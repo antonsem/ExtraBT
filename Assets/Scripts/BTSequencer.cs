@@ -1,14 +1,8 @@
-using System.Collections.Generic;
-
 namespace ExtraBT
 {
     public class BTSequencer : BTComposite
     {
         private int _currentNode = 0;
-
-        public BTSequencer(BehaviourTree tree, IEnumerable<BTNode> children) : base(tree, children)
-        {
-        }
 
         public override Result Execute()
         {

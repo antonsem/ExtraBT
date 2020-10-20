@@ -1,17 +1,13 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ExtraBT
 {
     public class BTRandomWalk : BTNode
     {
-        protected Vector3 NextDestination { get; set; }
-        public float Speed { get; set; } = 1;
-
-        public BTRandomWalk(in BehaviourTree tree) : base(in tree)
-        {
-            NextDestination = Vector3.zero;
-            FindNextDestination();
-        }
+        [SerializeField] private float speed = 1;
+        private float Speed => speed;
+        private Vector3 NextDestination { get; set; }
 
         private bool FindNextDestination()
         {
@@ -31,7 +27,7 @@ namespace ExtraBT
             if (Tree.gameObject.transform.position == NextDestination)
                 return FindNextDestination() ? Result.Success : Result.Failure;
 
-            Tree.gameObject.transform.position =
+            Tree.Body.gameObject.transform.position =
                 Vector3.MoveTowards(Tree.gameObject.transform.position, NextDestination, Time.deltaTime * Speed);
 
             return Result.Running;

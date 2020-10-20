@@ -6,10 +6,6 @@ namespace ExtraBT
     {
         private int _currentNode = 0;
 
-        public BTSelector(BehaviourTree tree, IEnumerable<BTNode> children) : base(tree, children)
-        {
-        }
-
         public override Result Execute()
         {
             if (_currentNode >= Children.Count)

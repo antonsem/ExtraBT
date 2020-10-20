@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +6,15 @@ namespace ExtraBT
 {
     public class BehaviourTree : MonoBehaviour
     {
-        private BTNode _root;
-        public BTNode Root { get; private set; }
+        [SerializeField] private BTNode root;
+        [SerializeField] private GameObject body;
+
+        public GameObject Body => body;
+        private BTNode Root => root;
         private bool _isRunning = false;
         private Coroutine _behavior;
 
-        public Dictionary<string, object> Blackboard { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Blackboard { get; private set; } = new Dictionary<string, object>();
 
         private void Start()
         {
@@ -29,10 +31,11 @@ namespace ExtraBT
 
             _isRunning = false;
 
-            Root = new BTRepeater(this, new BTSequencer(this, new[]
-            {
-                new BTRandomWalk(this)
-            }));
+            // Root = new BTRepeater(this, new BTSequencer(this, new List<BTNode>
+            // {
+            //     new BTRandomWalk(this), 
+            //     new BTWait(this, 1)
+            // }));
         }
 
         public void Run()
@@ -41,6 +44,15 @@ namespace ExtraBT
                 StopCoroutine(_behavior);
 
             _behavior = StartCoroutine(RunBehavior());
+        }
+
+        public void Stop()
+        {
+            if(_behavior != null)
+                StopCoroutine(_behavior);
+
+            _isRunning = false;
+            _behavior = null;
         }
 
         private IEnumerator RunBehavior()

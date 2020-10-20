@@ -1,15 +1,14 @@
+using UnityEngine;
+
 namespace ExtraBT
 {
-    public class BTNode
+    public class BTNode : MonoBehaviour
     {
         public enum Result { Running, Success, Failure }
-        
-        public BehaviourTree Tree { get; private set; }
 
-        public BTNode(in BehaviourTree tree)
-        {
-            Tree = tree;
-        }
+        [SerializeField] private BehaviourTree tree;
+        
+        protected BehaviourTree Tree => tree;
 
         public virtual Result Execute()
         {
